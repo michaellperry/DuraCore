@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+<article>
+    <header>
+        <h3>Durability Guarantees</h3>
+    </header>
+    <ul>
+        <li>The message is persisted.</li>
+        <li>The message is not removed until it is processed.</li>
+        <li>Duplicates are recognized.</li>
+    </ul>
+
+    <header>
+        <h3>MSMQ Options</h3>
+    </header>
+    <ul>
+        <li>Recoverable messages.</li>
+        <li>Transactional queues.</li>
+        <li>Private queues.</li>
+    </ul>
+
+    <header>
+        <h3>Configure MSMQ and MSDTC</h3>
+    </header>
+    <ul>
+        <li>Add Windows Components: MSMQ HTTP Support.</li>
+        <li>Run dcomcnfg. Select MSDTC: Use Local Coordinator.</li>
+        <li>Enable Network DTC Access.</li>
+        <li>Allow Remote Clients.</li>
+        <li>Allow Inbound and Outbound Connections.</li>
+        <li>No Authentication Required.</li>
+        <li>Enable XA Transactions.</li>
+    </ul>
+</article>
+
+<aside>
+    <h3>More information</h3>
+    <p>
+        Find additional information on:
+    </p>
+    <ul>
+        <li><a href="http://pluralsight.com/training/Courses/TableOfContents/cqrs-theory-practice">Pluralsight</a></li>
+        <li><a href="http://qedcode.com/durability">Q.E.D. Code</a></li>
+    </ul>
+</aside>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<DuraCore.Models.Confirmation>
 
 @{
     ViewBag.Title = "Shipments";
@@ -19,12 +19,18 @@
         <th>
             Item
         </th>
+        <th>
+            Confirmation Number
+        </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var confirmation in Model) {
     <tr>
         <td>
-            @item
+            @confirmation.Item
+        </td>
+        <td>
+            @confirmation.ConfirmationNumber
         </td>
     </tr>
 }

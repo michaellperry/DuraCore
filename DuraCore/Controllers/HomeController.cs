@@ -58,17 +58,24 @@ namespace DuraCore.Controllers
 
         public ActionResult Shipments()
         {
-            List<string> items;
+            List<Confirmation> model;
             using (var context = new OrderContext())
             {
                 var shipments =
                     from s in context.Shipments
                     orderby s.ShipmentId descending
-                    select s.Order.Item;
+                    select new { s.Order.Item, s.Order.OrderId };
 
-                items = shipments.ToList();
+                model = shipments
+                    .AsEnumerable()
+                    .Select(s => new Confirmation
+                    {
+                        Item = s.Item,
+                        ConfirmationNumber = "CN" + s.OrderId
+                    })
+                    .ToList();
             }
-            return View(items);
+            return View(model);
         }
 
         public ActionResult About()

@@ -1,4 +1,28 @@
-﻿html {
+﻿.editor-label, .display-label
+{
+    font-size: 26px;
+    display: inline-block;
+    width: 300px;
+}
+
+.editor-field, .display-field
+{
+    font-size: 26px;
+    display: inline;
+    font-weight: bold;
+}
+
+.main-content th
+{
+    font-size: 26px;
+}
+
+.main-content td
+{
+    font-size: 26px;
+}
+
+html {
     background-color: #e2e2e2;
     margin: 0;
     padding: 0;

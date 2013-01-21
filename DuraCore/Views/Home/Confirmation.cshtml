@@ -1,0 +1,33 @@
+﻿@model DuraCore.Models.Confirmation
+
+@{
+    ViewBag.Title = "Confirmation";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+        </div>
+    </section>
+}
+
+<fieldset>
+    <legend>Your Order</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Item)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Item)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ConfirmationNumber)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConfirmationNumber)
+    </div>
+</fieldset>

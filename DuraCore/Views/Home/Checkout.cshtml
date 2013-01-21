@@ -1,7 +1,7 @@
-﻿@model DuraCore.Models.Line
+﻿@model DuraCore.Models.ShoppingCart
 
 @{
-    ViewBag.Title = "Place an order";
+    ViewBag.Title = "Checkout";
 }
 @section featured {
     <section class="featured">
@@ -14,22 +14,23 @@
     </section>
 }
 
-@using (Html.BeginForm("Checkout", "Home")) {
+@using (Html.BeginForm("Confirmation", "Home")) {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>Shopping Cart</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Item)
+            @Html.DisplayNameFor(model => model.Item)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Item)
-            @Html.ValidationMessageFor(model => model.Item)
+            @Html.DisplayFor(model => model.Item)
         </div>
 
+        @Html.HiddenFor(model => model.Uniquifier)
+
         <p>
-            <input type="submit" value="Add To Cart" />
+            <input type="submit" value="Checkout" />
         </p>
     </fieldset>
 }

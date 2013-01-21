@@ -1,0 +1,32 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewBag.Title = "Shipments";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+        </div>
+    </section>
+}
+
+<table>
+    <tr>
+        <th>
+            Item
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item
+        </td>
+    </tr>
+}
+
+</table>

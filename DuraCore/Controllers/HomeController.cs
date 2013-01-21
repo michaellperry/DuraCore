@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DuraCore.Database;
 using DuraCore.Models;
 
 namespace DuraCore.Controllers
@@ -31,13 +32,43 @@ namespace DuraCore.Controllers
         [HttpPost]
         public ActionResult Confirmation(ShoppingCart shoppingCart)
         {
+            Order order = null;
+            using (var context = new OrderContext())
+            {
+                order = new Order
+                {
+                    Item = shoppingCart.Item,
+                    Uniquifier = shoppingCart.Uniquifier
+                };
+                context.Orders.Add(order);
+
+                context.SaveChanges();
+            }
+
+            ProcessOrder(order.OrderId);
+
             ViewBag.Message = "Thank you for your order.";
 
             return View(new Confirmation
             {
                 Item = shoppingCart.Item,
-                ConfirmationNumber = "123"
+                ConfirmationNumber = "CN" + order.OrderId
             });
+        }
+
+        public ActionResult Shipments()
+        {
+            List<string> items;
+            using (var context = new OrderContext())
+            {
+                var shipments =
+                    from s in context.Shipments
+                    orderby s.ShipmentId descending
+                    select s.Order.Item;
+
+                items = shipments.ToList();
+            }
+            return View(items);
         }
 
         public ActionResult About()
@@ -52,6 +83,16 @@ namespace DuraCore.Controllers
             ViewBag.Message = "Michael L Perry";
 
             return View();
+        }
+
+        private void ProcessOrder(int orderId)
+        {
+            using (var context = new OrderContext())
+            {
+                context.Shipments.Add(new Shipment { OrderId = orderId });
+
+                context.SaveChanges();
+            }
         }
     }
 }

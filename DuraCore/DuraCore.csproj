@@ -44,6 +44,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -132,6 +134,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Messaging\IMessageHandler.cs" />
+    <Compile Include="Infrastructure\Messaging\IMessageQueueInbound.cs" />
+    <Compile Include="Infrastructure\Messaging\IMessageQueueOutbound.cs" />
+    <Compile Include="Infrastructure\Messaging\MemoryMessageQueue.cs" />
+    <Compile Include="Infrastructure\Messaging\MessageProcessor.cs" />
+    <Compile Include="Infrastructure\Messaging\MsmqMessageQueueInbound.cs" />
+    <Compile Include="Infrastructure\Messaging\MsmqMessageQueueOutbound.cs" />
+    <Compile Include="Infrastructure\Messaging\SubscriberRegistry.cs" />
+    <Compile Include="Infrastructure\Messaging\Subscription.cs" />
+    <Compile Include="Infrastructure\Messaging\SubscriptionHandler.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\Confirmation.cs" />
     <Compile Include="Models\Line.cs" />

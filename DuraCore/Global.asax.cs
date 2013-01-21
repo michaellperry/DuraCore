@@ -23,6 +23,8 @@ namespace DuraCore
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DatabaseConfig.RegisterDatabase();
+
+            ServiceConfig.StartService();
         }
     }
 }

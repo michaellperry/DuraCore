@@ -5,6 +5,7 @@ using System.Threading;
 using System.Web.Mvc;
 using DuraCore.Database;
 using DuraCore.Models;
+using DuraCore.Services;
 
 namespace DuraCore.Controllers
 {
@@ -50,7 +51,7 @@ namespace DuraCore.Controllers
                 context.SaveChanges();
             }
 
-            ProcessOrder(order.OrderId);
+            OrderProcessingService.SendProcessOrderMessage(order.OrderId);
 
             ViewBag.Message = "Thank you for your order.";
 
@@ -95,25 +96,6 @@ namespace DuraCore.Controllers
             ViewBag.Message = "Michael L Perry";
 
             return View();
-        }
-
-        private void ProcessOrder(int orderId)
-        {
-
-            // Slow processing
-            Thread.Sleep(5000);
-
-
-            // Intermittent errors
-            throw new Exception("A deadlock occurred.");
-
-
-            using (var context = new OrderContext())
-            {
-                context.Shipments.Add(new Shipment { OrderId = orderId });
-
-                context.SaveChanges();
-            }
         }
     }
 }

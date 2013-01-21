@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading;
 using System.Web.Mvc;
 using DuraCore.Database;
 using DuraCore.Models;
@@ -32,6 +32,11 @@ namespace DuraCore.Controllers
         [HttpPost]
         public ActionResult Confirmation(ShoppingCart shoppingCart)
         {
+
+            // Slow network.
+            Thread.Sleep(2000);
+
+
             Order order = null;
             using (var context = new OrderContext())
             {
@@ -94,6 +99,15 @@ namespace DuraCore.Controllers
 
         private void ProcessOrder(int orderId)
         {
+
+            // Slow processing
+            Thread.Sleep(5000);
+
+
+            // Intermittent errors
+            throw new Exception("A deadlock occurred.");
+
+
             using (var context = new OrderContext())
             {
                 context.Shipments.Add(new Shipment { OrderId = orderId });

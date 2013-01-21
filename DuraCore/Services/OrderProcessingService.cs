@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using DuraCore.Database;
 using DuraCore.Infrastructure.Messaging;
 
@@ -15,12 +12,17 @@ namespace DuraCore.Services
 
         static OrderProcessingService()
         {
-            var queue = new MemoryMessageQueue<ProcessOrder>();
-            _outbound = queue;
-            _inbound = queue;
+            // Memory
+            //var queue = new MemoryMessageQueue<ProcessOrder>();
+            //_outbound = queue;
+            //_inbound = queue;
+
+            // MSMQ
+            _outbound = new MsmqMessageQueueOutbound<ProcessOrder>(".", "OrderInbox");
+            _inbound = new MsmqMessageQueueInbound<ProcessOrder>("OrderInbox");
         }
 
-        public void Run()
+        public static void Run()
         {
             while (true)
             {
@@ -50,11 +52,11 @@ namespace DuraCore.Services
         {
 
             // Slow processing
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
 
 
             // Intermittent errors
-            throw new Exception("A deadlock occurred.");
+            //throw new Exception("A deadlock occurred.");
 
 
             using (var context = new OrderContext())

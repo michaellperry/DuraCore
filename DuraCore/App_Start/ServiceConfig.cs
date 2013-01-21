@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Web;
+﻿using System.Threading;
 using DuraCore.Services;
 
 namespace DuraCore
@@ -11,9 +7,7 @@ namespace DuraCore
     {
         public static void StartService()
         {
-            OrderProcessingService service = new OrderProcessingService();
-
-            Thread thread = new Thread(new ThreadStart(delegate() { service.Run(); }));
+            Thread thread = new Thread(OrderProcessingService.Run);
             thread.Name = "Order Processing Thread";
             thread.IsBackground = true;
             thread.Start();

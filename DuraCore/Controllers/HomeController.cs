@@ -35,7 +35,7 @@ namespace DuraCore.Controllers
         {
 
             // Slow network.
-            Thread.Sleep(2000);
+            //Thread.Sleep(2000);
 
 
             Order order = null;

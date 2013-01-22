@@ -13,13 +13,13 @@ namespace DuraCore.Services
         static OrderProcessingService()
         {
             // Memory
-            //var queue = new MemoryMessageQueue<ProcessOrder>();
-            //_outbound = queue;
-            //_inbound = queue;
+            var queue = new MemoryMessageQueue<ProcessOrder>();
+            _outbound = queue;
+            _inbound = queue;
 
             // MSMQ
-            _outbound = new MsmqMessageQueueOutbound<ProcessOrder>(".", "OrderInbox");
-            _inbound = new MsmqMessageQueueInbound<ProcessOrder>("OrderInbox");
+            //_outbound = new MsmqMessageQueueOutbound<ProcessOrder>(".", "OrderInbox");
+            //_inbound = new MsmqMessageQueueInbound<ProcessOrder>("OrderInbox");
         }
 
         public static void Run()

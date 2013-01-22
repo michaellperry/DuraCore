@@ -25,8 +25,7 @@ namespace DuraCore.Controllers
 
             return View(new ShoppingCart
             {
-                Item = line.Item,
-                Uniquifier = Guid.NewGuid()
+                Item = line.Item
             });
         }
 
@@ -38,18 +37,7 @@ namespace DuraCore.Controllers
             //Thread.Sleep(2000);
 
 
-            Order order = null;
-            using (var context = new OrderContext())
-            {
-                order = new Order
-                {
-                    Item = shoppingCart.Item,
-                    Uniquifier = shoppingCart.Uniquifier
-                };
-                context.Orders.Add(order);
-
-                context.SaveChanges();
-            }
+            Order order = SaveAsOrder(shoppingCart);
 
             OrderProcessingService.SendProcessOrderMessage(order.OrderId);
 
@@ -96,6 +84,22 @@ namespace DuraCore.Controllers
             ViewBag.Message = "Michael L Perry";
 
             return View();
+        }
+
+        private static Order SaveAsOrder(ShoppingCart shoppingCart)
+        {
+            Order order;
+            using (var context = new OrderContext())
+            {
+                order = new Order
+                {
+                    Item = shoppingCart.Item
+                };
+                context.Orders.Add(order);
+
+                context.SaveChanges();
+            }
+            return order;
         }
     }
 }

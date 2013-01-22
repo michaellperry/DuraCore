@@ -21,18 +21,6 @@ namespace DuraCore.Infrastructure.Messaging
 
         public void Send(T message)
         {
-            using (var scope = new TransactionScope())
-            {
-                using (var queue = new MessageQueue(_path))
-                {
-                    queue.DefaultPropertiesToSend
-                        .Recoverable = true;
-                    queue.Formatter = Formatter;
-                    queue.Send(message,
-                        MessageQueueTransactionType.Automatic);
-                }
-                scope.Complete();
-            }
         }
     }
 }

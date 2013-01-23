@@ -14,6 +14,9 @@ namespace DuraCore.Database
         [Required]
         [StringLength(50)]
         public virtual string Item { get; set; }
+		
         // TODO 8.1: Add Uniquifier.
+        [Required]
+        public virtual Guid Uniquifier { get; set; }
     }
 }

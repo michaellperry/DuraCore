@@ -16,13 +16,13 @@ namespace DuraCore.Services
         {
             // TODO 2: Switch to MSMQ
             // Memory
-            var queue = new MemoryMessageQueue<ProcessOrder>();
-            _outbound = queue;
-            _inbound = queue;
+            //var queue = new MemoryMessageQueue<ProcessOrder>();
+            //_outbound = queue;
+            //_inbound = queue;
 
             // MSMQ
-            //_outbound = new MsmqMessageQueueOutbound<ProcessOrder>(".", "OrderInbox");
-            //_inbound = new MsmqMessageQueueInbound<ProcessOrder>("OrderInbox");
+            _outbound = new MsmqMessageQueueOutbound<ProcessOrder>(".", "OrderInbox");
+            _inbound = new MsmqMessageQueueInbound<ProcessOrder>("OrderInbox");
         }
 
         public static void Run()
@@ -32,10 +32,19 @@ namespace DuraCore.Services
                 try
                 {
                     // TODO 7.5: Begin a transaction scope (requires new, read committed).
-                    ProcessOrder message = null;
-                    if (_inbound.TryReceive(out message))
+                    using (var scope = new TransactionScope(
+                        TransactionScopeOption.RequiresNew,
+                        new TransactionOptions
+                        {
+                            IsolationLevel = IsolationLevel.ReadCommitted
+                        }))
                     {
-                        ProcessOrder(message.OrderId);
+                        ProcessOrder message = null;
+                        if (_inbound.TryReceive(out message))
+                        {
+                            ProcessOrder(message.OrderId);
+                        }
+                        scope.Complete();
                     }
                 }
                 catch (Exception x)
@@ -55,7 +64,7 @@ namespace DuraCore.Services
         public static void ProcessOrder(int orderId)
         {
             // TODO 1: Slow processing.
-            //Thread.Sleep(5000);
+            //Thread.Sleep(10000);
 
 
             // TODO 7.0: Intermittent errors.
@@ -65,6 +74,15 @@ namespace DuraCore.Services
             using (var context = new OrderContext())
             {
                 // TODO 9: Look for existing shipments for order.
+                var matchingShipments =
+                    from s in context.Shipments
+                    where s.OrderId == orderId
+                    select s;
+
+                Shipment shipment = matchingShipments.FirstOrDefault();
+                if (shipment != null)
+                    return;
+
                 context.Shipments.Add(new Shipment { OrderId = orderId });
 
                 context.SaveChanges();

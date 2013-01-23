@@ -8,6 +8,7 @@ namespace DuraCore.Models
     public class ShoppingCart
     {
         // TODO 8.2: Add uniquifier.
+        public Guid Uniquifier { get; set; }
         public string Item { get; set; }
     }
 }

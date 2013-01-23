@@ -25,8 +25,9 @@ namespace DuraCore.Controllers
 
             return View(new ShoppingCart
             {
-                Item = line.Item
+                Item = line.Item,
                 // TODO 8.6: Generate uniquifier.
+                Uniquifier = Guid.NewGuid()
             });
         }
 
@@ -35,7 +36,7 @@ namespace DuraCore.Controllers
         {
 
             // TODO 8.0: Slow network.
-            //Thread.Sleep(2000);
+            Thread.Sleep(2000);
 
 
             Order order = SaveAsOrder(shoppingCart);
@@ -93,10 +94,20 @@ namespace DuraCore.Controllers
             using (var context = new OrderContext())
             {
                 // TODO 8.3: Look for existing order by uniquifier.
+                var matchingOrders =
+                    from o in context.Orders
+                    where o.Uniquifier == shoppingCart.Uniquifier
+                    select o;
+
+                order = matchingOrders.FirstOrDefault();
+                if (order != null)
+                    return order;
+
                 order = new Order
                 {
-                    Item = shoppingCart.Item
+                    Item = shoppingCart.Item,
 					// TODO 8.4: Copy uniquifier.
+                    Uniquifier = shoppingCart.Uniquifier
                 };
                 context.Orders.Add(order);
 

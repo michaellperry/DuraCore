@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
+using System.Transactions;
 using DuraCore.Database;
 using DuraCore.Infrastructure.Messaging;
 
@@ -12,6 +14,7 @@ namespace DuraCore.Services
 
         static OrderProcessingService()
         {
+            // TODO 2: Switch to MSMQ
             // Memory
             var queue = new MemoryMessageQueue<ProcessOrder>();
             _outbound = queue;
@@ -28,6 +31,7 @@ namespace DuraCore.Services
             {
                 try
                 {
+                    // TODO 7.4: Begin a transaction scope (requires new, read committed).
                     ProcessOrder message = null;
                     if (_inbound.TryReceive(out message))
                     {
@@ -50,17 +54,17 @@ namespace DuraCore.Services
 
         public static void ProcessOrder(int orderId)
         {
-
-            // Slow processing
+            // TODO 8.0: Slow processing.
             //Thread.Sleep(5000);
 
 
-            // Intermittent errors
+            // TODO 1: Intermittent errors.
             //throw new Exception("A deadlock occurred.");
 
 
             using (var context = new OrderContext())
             {
+                // TODO 9: Look for existing shipments for order.
                 context.Shipments.Add(new Shipment { OrderId = orderId });
 
                 context.SaveChanges();

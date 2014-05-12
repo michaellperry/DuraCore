@@ -26,7 +26,7 @@ namespace DuraCore.Controllers
             return View(new ShoppingCart
             {
                 Item = line.Item
-                // TODO 8.5: Generate uniquifier.
+                // TODO 8.6: Generate uniquifier.
             });
         }
 
@@ -34,7 +34,7 @@ namespace DuraCore.Controllers
         public ActionResult Confirmation(ShoppingCart shoppingCart)
         {
 
-            // TODO: Slow network.
+            // TODO 8.0: Slow network.
             //Thread.Sleep(2000);
 
 
@@ -96,7 +96,7 @@ namespace DuraCore.Controllers
                 order = new Order
                 {
                     Item = shoppingCart.Item
-					// TODO: Copy uniquifier.
+					// TODO 8.4: Copy uniquifier.
                 };
                 context.Orders.Add(order);
 

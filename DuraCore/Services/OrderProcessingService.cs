@@ -31,7 +31,7 @@ namespace DuraCore.Services
             {
                 try
                 {
-                    // TODO 7.4: Begin a transaction scope (requires new, read committed).
+                    // TODO 7.5: Begin a transaction scope (requires new, read committed).
                     ProcessOrder message = null;
                     if (_inbound.TryReceive(out message))
                     {
@@ -54,11 +54,11 @@ namespace DuraCore.Services
 
         public static void ProcessOrder(int orderId)
         {
-            // TODO 8.0: Slow processing.
+            // TODO 1: Slow processing.
             //Thread.Sleep(5000);
 
 
-            // TODO 1: Intermittent errors.
+            // TODO 7.0: Intermittent errors.
             //throw new Exception("A deadlock occurred.");
 
 
